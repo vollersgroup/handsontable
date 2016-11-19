@@ -576,8 +576,10 @@ var copyableLookup = cellMethodLookupFactory('copyable', false);
  * @returns {String}
  */
 DataMap.prototype.getCopyable = function(row, prop) {
-  if (copyableLookup.call(this.instance, row, this.propToCol(prop))) {
-    return this.get(row, prop);
+  var col = this.propToCol(prop);
+  var value = this.get(row, prop);
+  if (copyableLookup.call(this.instance, row, col)) {
+    return Handsontable.hooks.run(this.instance, 'beforeCopy', value, row, col);
   }
   return '';
 };

@@ -1,4 +1,3 @@
-
 /**
  * @description
  * Handsontable events are the common interface that function in 2 ways: as __callbacks__ and as __hooks__.
@@ -1251,11 +1250,42 @@ const REGISTERED_HOOKS = [
    * @param {Number} row Row index of the edited cell.
    * @param {Number} column Column index of the edited cell.
    */
-  'afterBeginEditing'
+  'afterBeginEditing',
+
+  /*
+   * Allow application to modify the content being copied. To cancel the whole copy operation return false.
+   * You can modify the 'range' object as you see fit.
+   *
+   * @event Hooks#beforeCopy
+   * @since 0.28.4
+   * @param {Object} range
+   * @returns false if you want to cancel out of copy operation
+   */
+  'beforeCopy',
+
+  /**
+   * Allow application to modify the content being pasted. To cancel the whole paste operation return false.
+   * You can modify the 'inputArray' as you see fit.
+   *
+   * @event Hooks#beforePaste
+   * @since 0.28.4
+   * @param {Array} inputArray
+   * @param {Number} startRow
+   * @param {Number} startCol
+   * @param {Number} endRow
+   * @param {Number} endCol
+   * @param {String} pasteMode
+   * @returns false if you want to cancel out of paste operation
+   */
+  'beforePaste',
 ];
 
-import {arrayEach} from './helpers/array';
-import {objectEach} from './helpers/object';
+import {
+  arrayEach
+} from './helpers/array';
+import {
+  objectEach
+} from './helpers/object';
 
 class Hooks {
   /**
@@ -1590,4 +1620,6 @@ class Hooks {
   }
 }
 
-export {Hooks};
+export {
+  Hooks
+};
