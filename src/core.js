@@ -482,6 +482,7 @@ Handsontable.Core = function Core(rootElement, userSettings) {
                 continue;
               }
               let logicalColumn = c - skippedColumn;
+              let schema = instance.getSchema()[cellMeta.prop];
               let value = getInputValue(logicalRow, logicalColumn);
               let orgValue = instance.getDataAtCell(current.row, current.col);
               let index = {
@@ -498,11 +499,11 @@ Handsontable.Core = function Core(rootElement, userSettings) {
               }
               if (value !== null && typeof value === 'object') {
                 if (orgValue === null || typeof orgValue !== 'object') {
-                  pushData = false;
+                  value = deepClone(value);
 
                 } else {
-                  let orgValueSchema = duckSchema(orgValue[0] || orgValue);
-                  let valueSchema = duckSchema(value[0] || value);
+                  let orgValueSchema = duckSchema(orgValue);
+                  let valueSchema = duckSchema(value);
 
                   /* jshint -W073 */
                   if (isObjectEquals(orgValueSchema, valueSchema)) {
