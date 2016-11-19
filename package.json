@@ -38,7 +38,7 @@
     "grunt-contrib-jasmine": "^1.0.3",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-jscs": "^3.0.1",
-    "hot-builder": "^0.5.2"
+    "hot-builder": "git://github.com/Cropster/hot-builder.git#feature\/no-require"
   },
   "scripts": {
     "build": "./node_modules/.bin/grunt build",
