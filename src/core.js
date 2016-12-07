@@ -790,34 +790,10 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
                   value = isUndefined(result.value) ? value : result.value;
                 }
               }
-              if (value !== null && typeof value === 'object') {
-                // when 'value' is array and 'orgValue' is null, set 'orgValue' to
-                // an empty array so that the null value can be compared to 'value'
-                // as an empty value for the array context
-                if (Array.isArray(value) && orgValue === null) orgValue = [];
-
-                if (orgValue === null || typeof orgValue !== 'object') {
-                  pushData = false;
-
-                } else {
-                  const orgValueSchema = duckSchema(Array.isArray(orgValue) ? orgValue : (orgValue[0] || orgValue));
-                  const valueSchema = duckSchema(Array.isArray(value) ? value : (value[0] || value));
-
-                  /* eslint-disable max-depth */
-                  if (isObjectEqual(orgValueSchema, valueSchema)) {
-                    value = deepClone(value);
-                  } else {
-                    pushData = false;
-                  }
-                }
-
-              } else if (orgValue !== null && typeof orgValue === 'object') {
-                pushData = false;
+              if (Array.isArray(value)) {
+                value = value.slice(0);
               }
-              if (pushData) {
-                setData.push([current.row, current.col, value]);
-              }
-              pushData = true;
+              setData.push([current.row, current.col, value]);
               current.col += 1;
             }
             current.row += 1;
