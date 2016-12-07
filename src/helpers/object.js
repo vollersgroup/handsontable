@@ -316,12 +316,11 @@ export function deepObjectSize(object) {
     let result = 0;
 
     if (isObject(obj)) {
-      objectEach(obj, (value, key) => {
-        if (key === '__children') {
-          return;
-        }
-
-        result += recursObjLen(value);
+      objectEach(obj, (key) => {
+        // prevent maximum call stack size
+        // for complex objects like models
+        // from some javascript frameworks
+        result += recursObjLen(deepClone(key));
       });
     } else {
       result += 1;
