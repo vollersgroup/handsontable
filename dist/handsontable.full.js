@@ -4472,7 +4472,7 @@ var domHelpers = ($__helpers_47_dom_47_element__ = _dereq_("helpers/dom/element"
 var domEventHelpers = ($__helpers_47_dom_47_event__ = _dereq_("helpers/dom/event"), $__helpers_47_dom_47_event__ && $__helpers_47_dom_47_event__.__esModule && $__helpers_47_dom_47_event__ || {default: $__helpers_47_dom_47_event__});
 var HELPERS = [arrayHelpers, browserHelpers, dataHelpers, dateHelpers, featureHelpers, functionHelpers, mixedHelpers, numberHelpers, objectHelpers, settingHelpers, stringHelpers, unicodeHelpers];
 var DOM = [domHelpers, domEventHelpers];
-Handsontable.buildDate = 'Wed Dec 07 2016 09:13:28 GMT+0100 (CET)';
+Handsontable.buildDate = 'Mon May 07 2018 09:45:52 GMT+0200 (CEST)';
 Handsontable.packageName = 'handsontable';
 Handsontable.version = '0.29.0';
 var baseVersion = '@@baseVersion';
@@ -13022,8 +13022,15 @@ Autofill.prototype.selectAdjacent = function() {
   data = this.instance.getData();
   rows: for (r = select[2] + 1; r < this.instance.countRows(); r++) {
     for (c = select[1]; c <= select[3]; c++) {
-      if (data[r][c]) {
-        break rows;
+      var d = data[r][c];
+      if (d) {
+        if (Array.isArray(d)) {
+          if (d.length !== 0) {
+            break rows;
+          }
+        } else {
+          break rows;
+        }
       }
     }
     if (!!data[r][select[1] - 1] || !!data[r][select[3] + 1]) {
