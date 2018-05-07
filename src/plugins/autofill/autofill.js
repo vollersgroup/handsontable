@@ -185,8 +185,15 @@ Autofill.prototype.selectAdjacent = function() {
 
   rows: for (r = select[2] + 1; r < this.instance.countRows(); r++) {
     for (c = select[1]; c <= select[3]; c++) {
-      if (data[r][c]) {
-        break rows;
+      var d = data[r][c];
+      if (d) {
+        if (Array.isArray(d)) {
+          if (d.length !== 0) {
+            break rows;
+          }
+        } else {
+          break rows;
+        }
       }
     }
     if (!!data[r][select[1] - 1] || !!data[r][select[3] + 1]) {
