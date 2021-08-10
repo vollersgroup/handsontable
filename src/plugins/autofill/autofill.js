@@ -338,9 +338,14 @@ class Autofill extends BasePlugin {
     for (let rowIndex = cornersOfSelectedCells[2] + 1; rowIndex < nrOfTableRows; rowIndex++) {
       for (let columnIndex = cornersOfSelectedCells[1]; columnIndex <= cornersOfSelectedCells[3]; columnIndex++) {
         const dataInCell = data[rowIndex][columnIndex];
-
         if (dataInCell) {
-          return -1;
+          if (Array.isArray(dataInCell)) {
+            if (dataInCell.length !== 0) {
+              return -1;
+            }
+          } else {
+            return -1;
+          }
         }
       }
 
