@@ -24,7 +24,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  * Version: 6.2.2
- * Release date: 19/12/2018 (built at 18/12/2018 14:40:17)
+ * Release date: 19/12/2018 (built at 10/08/2021 16:19:06)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1589,7 +1589,10 @@ function deepObjectSize(object) {
 
     if (isObject(obj)) {
       objectEach(obj, function (key) {
-        result += recursObjLen(key);
+        // prevent maximum call stack size
+        // for complex objects like models
+        // from some javascript frameworks
+        result += recursObjLen(deepClone(key));
       });
     } else {
       result += 1;
@@ -16778,29 +16781,11 @@ function Core(rootElement, userSettings) {
                 }
               }
 
-              if (value !== null && _typeof(value) === 'object') {
-                if (orgValue === null || _typeof(orgValue) !== 'object') {
-                  pushData = false;
-                } else {
-                  var orgValueSchema = (0, _object.duckSchema)(orgValue[0] || orgValue);
-                  var valueSchema = (0, _object.duckSchema)(value[0] || value);
-                  /* eslint-disable max-depth */
-
-                  if ((0, _object.isObjectEqual)(orgValueSchema, valueSchema)) {
-                    value = (0, _object.deepClone)(value);
-                  } else {
-                    pushData = false;
-                  }
-                }
-              } else if (orgValue !== null && _typeof(orgValue) === 'object') {
-                pushData = false;
+              if (Array.isArray(value)) {
+                value = value.slice(0);
               }
 
-              if (pushData) {
-                setData.push([current.row, current.col, value]);
-              }
-
-              pushData = true;
+              setData.push([current.row, current.col, value]);
               current.col += 1;
             }
 
@@ -35770,7 +35755,7 @@ Handsontable.DefaultSettings = _defaultSettings.default;
 Handsontable.EventManager = _eventManager.default;
 Handsontable._getListenersCounter = _eventManager.getListenersCounter; // For MemoryLeak tests
 
-Handsontable.buildDate = "18/12/2018 14:40:17";
+Handsontable.buildDate = "10/08/2021 16:19:06";
 Handsontable.packageName = "handsontable";
 Handsontable.version = "6.2.2";
 var baseVersion = "";
@@ -56489,7 +56474,13 @@ function (_BasePlugin) {
           var dataInCell = data[rowIndex][columnIndex];
 
           if (dataInCell) {
-            return -1;
+            if (Array.isArray(dataInCell)) {
+              if (dataInCell.length !== 0) {
+                return -1;
+              }
+            } else {
+              return -1;
+            }
           }
         }
 
