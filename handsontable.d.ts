@@ -128,6 +128,7 @@ declare namespace _Handsontable {
     setDataAtCell(row: number, col: string | number, value: Handsontable.CellValue, source?: string): void;
     setDataAtRowProp(changes: Array<[number, string | number, Handsontable.CellValue]>, source?: string): void;
     setDataAtRowProp(row: number, prop: string, value: Handsontable.CellValue, source?: string): void;
+    setSourceData(data: any): void;
     setSourceDataAtCell(changes: [number, string | number, Handsontable.CellValue][]): void;
     setSourceDataAtCell(row: number, column: number | string, value: Handsontable.CellValue, source?: string): void;
     spliceCol(col: number, index: number, amount: number, ...elements: Handsontable.CellValue[]): void;

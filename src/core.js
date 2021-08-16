@@ -2688,6 +2688,10 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
 
     return data;
   };
+  
+  this.setSourceData = function (data) {
+    dataSource.setData(data);
+  }
 
   /**
    * Returns the source data object as an arrays of arrays format even when source data was provided in another format.
