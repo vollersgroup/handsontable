@@ -1,6 +1,6 @@
 import { KEY_CODES, isPrintableChar } from './../helpers/unicode';
 import { stringify, isDefined } from './../helpers/mixed';
-import { stripTags } from './../helpers/string';
+import { sanitize, stripTags } from './../helpers/string';
 import { pivot, arrayMap } from './../helpers/array';
 import {
   addClass,
@@ -116,9 +116,11 @@ class AutocompleteEditor extends HandsontableEditor {
             match = cellValue.substr(indexOfMatch, query.length);
             cellValue = cellValue.replace(match, `<strong>${match}</strong>`);
           }
-        }
 
-        TD.innerHTML = cellValue;
+          TD.innerHTML = sanitize(cellValue);
+        } else {
+          TD.innerHTML = cellValue;
+        }
       },
       autoColumnSize: true,
       modifyColWidth(width, col) {

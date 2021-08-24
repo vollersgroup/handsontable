@@ -1,3 +1,4 @@
+import { sanitize as purifySanitize } from 'dompurify';
 import { stringify } from './mixed';
 
 /**
@@ -84,5 +85,16 @@ const STRIP_TAGS_REGEX = /<\/?\w+\/?>|<\w+[\s|/][^>]*>/gi;
  * @return {String}
  */
 export function stripTags(string) {
-  return `${string}`.replace(STRIP_TAGS_REGEX, '');
+  return sanitize(`${string}`, { ALLOWED_TAGS: [] });
+}
+
+/**
+ * Sanitizes string from potential security vulnerabilities.
+ *
+ * @param {string} string String to sanitize.
+ * @param {object} [options] DOMPurify's configuration object.
+ * @returns {string}
+ */
+export function sanitize(string, options = { PROFILES: { html: true } }) {
+  return purifySanitize(string, options);
 }

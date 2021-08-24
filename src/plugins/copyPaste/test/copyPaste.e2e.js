@@ -795,5 +795,22 @@ describe('CopyPaste', () => {
       expect(getDataAtCell(1, 1)).toEqual(null);
       expect(getDataAtCell(1, 2)).toEqual('C2');
     });
+
+    it('should sanitize pasted HTML', () => {
+      handsontable();
+
+      const clipboardEvent = getClipboardEvent();
+      const plugin = getPlugin('CopyPaste');
+
+      clipboardEvent.clipboardData.setData('text/html', [
+        '<table><tr></tr></table><img src onerror="boom()">'
+      ].join('\r\n'));
+
+      selectCell(0, 0);
+
+      plugin.onPaste(clipboardEvent);
+
+      expect(getDataAtCell(0, 0)).toEqual(null);
+    });
   });
 });

@@ -5,6 +5,7 @@ import {
   isTextContentSupported,
   isGetComputedStyleSupported,
 } from '../feature';
+import { sanitize } from '../string';
 
 /**
  * Get the parent of the specified node in the DOM tree.
@@ -460,7 +461,7 @@ export const HTML_CHARACTERS = /(<(.*)>|&(.*);)/;
  */
 export function fastInnerHTML(element, content) {
   if (HTML_CHARACTERS.test(content)) {
-    element.innerHTML = content;
+    element.innerHTML = sanitize(content);
   } else {
     fastInnerText(element, content);
   }
